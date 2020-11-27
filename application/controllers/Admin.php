@@ -1,4 +1,4 @@
-<?php
+<?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
@@ -6,15 +6,19 @@ class Admin extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('m_berita');
+		$this->load->model('berita_model');
         $this->load->library('upload');
 	}
 
 	public function index()
 	{
-		$data['judul'] = 'Daftar Berita';
+		$data['judul'] = 'List Data Berita';
+		//$data['berita']=$this->berita_model->get_all_berita();
+
+		$data['berita'] = $this->berita_model->getBerita(2, 2);
+
 		$this->load->view('admin/header', $data);
-		$this->load->view('admin/admin');
+		$this->load->view('admin/admin', $data);
 		$this->load->view('admin/footer');
 	}
 
@@ -52,7 +56,7 @@ class Admin extends CI_Controller {
                 $jdl=$this->input->post('judul');
                 $berita=$this->input->post('berita');
 
-				$this->m_berita->simpan_berita($jdl,$berita,$gambar);
+				$this->berita_model->simpan_berita($jdl,$berita,$gambar);
 				redirect('admin');
 		}else{
 			redirect('admin/tambah_berita');
@@ -63,4 +67,5 @@ class Admin extends CI_Controller {
 		}
 				
 	}
+
 }
